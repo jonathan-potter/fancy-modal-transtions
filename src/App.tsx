@@ -1,23 +1,34 @@
-import React from 'react';
-import logo from './logo.svg';
+import { useState } from 'react';
+// // import logo from './logo.svg';
+import ModalContainer from './components/ModalContainer';
 import './App.css';
+import { FormEvent } from 'react';
+
+let counter = 1
 
 function App() {
+  const [ modals, setModals ] = useState<Array<Number>>([])
+
+  function addModal(event: FormEvent) {
+    event.preventDefault()
+
+    setModals([...modals, counter++])
+  }
+
+  function removeModal(event: FormEvent) {
+    event.preventDefault()
+
+    setModals(modals.slice(0, -1))
+  }
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <form onSubmit={ addModal }>
+          <button>Add Modal</button>
+        </form>
+
+        <ModalContainer addModal={ addModal } removeModal={ removeModal } modals={ modals }></ModalContainer>
       </header>
     </div>
   );
